@@ -2,6 +2,8 @@ package com.ll.standard.util;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -78,9 +80,11 @@ public class UtTest {
 }
 
 @AllArgsConstructor
+@NoArgsConstructor
+@ToString
 @Getter
 class TempArticle {
-    private final long id;
-    private final String title;
-    private final String content;
+    private long id;
+    private String title;
+    private String content;
 }
