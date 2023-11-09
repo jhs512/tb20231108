@@ -65,6 +65,16 @@ public class UtTest {
 
         assertThat(content).isNotBlank();
     }
+
+    @Test
+    @DisplayName("JSON 형식으로 파일에 저장된 객체를 읽을 수 있다.")
+    void t6() {
+        Ut.file.save(testFilePath, new TempArticle(1, "제목", "내용"));
+
+        final TempArticle tempArticle = Ut.file.getContent(testFilePath, TempArticle.class);
+
+        assertThat(tempArticle).isNotNull();
+    }
 }
 
 @AllArgsConstructor

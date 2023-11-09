@@ -77,5 +77,9 @@ public class Ut {
         public static void save(String filePath, long content) {
             save(filePath, String.valueOf(content));
         }
+
+        public static <T> T getContent(String testFilePath, Class<?> cls) {
+            return null;
+        }
     }
 }
