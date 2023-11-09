@@ -1,5 +1,6 @@
 package com.ll.global.rq;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,11 +17,15 @@ public class Rq {
 
         if (queryString.isBlank()) return;
 
-        final String[] paramBits = queryString.split("=", 2);
-        final String paramName = paramBits[0].trim();
-        final String paramValue = paramBits[1].trim();
+        Arrays
+                .stream(queryString.split("&"))
+                .forEach(param -> {
+                    final String[] paramBits = param.split("=", 2);
+                    final String paramName = paramBits[0].trim();
+                    final String paramValue = paramBits[1].trim();
 
-        params.put(paramName, paramValue);
+                    params.put(paramName, paramValue);
+                });
     }
 
     public String getAction() {
