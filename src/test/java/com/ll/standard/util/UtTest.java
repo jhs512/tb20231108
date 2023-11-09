@@ -1,5 +1,7 @@
 package com.ll.standard.util;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -53,4 +55,22 @@ public class UtTest {
 
         assertThat(content).isNull();
     }
+
+    @Test
+    @DisplayName("객체가 파일로 저장될 수 있다.")
+    void t5() {
+        Ut.file.save(testFilePath, new TempArticle(1, "제목", "내용"));
+
+        final String content = Ut.file.getContent(testFilePath);
+
+        assertThat(content).isNotBlank();
+    }
+}
+
+@AllArgsConstructor
+@Getter
+class TempArticle {
+    private final long id;
+    private final String title;
+    private final String content;
 }
