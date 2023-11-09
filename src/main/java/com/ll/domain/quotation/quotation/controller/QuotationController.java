@@ -19,10 +19,9 @@ public class QuotationController {
     public void actionRemove(final Rq rq) {
         final long id = rq.getParameterAsLong("id", 0);
 
-        quotationService.findAll()
-                .stream()
-                .filter(quotation -> quotation.getId() == id)
-                .findFirst()
+        Optional<Quotation> quotationOpt = quotationService.findById(id);
+
+        quotationOpt
                 .ifPresentOrElse(
                         quotation -> {
                             quotationService.remove(quotation);
