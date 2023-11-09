@@ -31,6 +31,6 @@ public class Rq {
     }
 
     public String getParameter(final String paramName, final String defaultValue) {
-        return null;
+        return params.getOrDefault(paramName, defaultValue);
     }
 }
