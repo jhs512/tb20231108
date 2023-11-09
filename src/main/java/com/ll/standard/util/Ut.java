@@ -40,8 +40,9 @@ public class Ut {
             Files.delete(Paths.get(filePath));
         }
 
+        @SneakyThrows
         public static String getContent(String filePath) {
-            return null;
+            return Files.readString(Paths.get(filePath));
         }
     }
 }
