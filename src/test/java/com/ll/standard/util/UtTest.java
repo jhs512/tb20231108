@@ -71,11 +71,20 @@ public class UtTest {
     @Test
     @DisplayName("JSON 형식으로 파일에 저장된 객체를 읽을 수 있다.")
     void t6() {
-        Ut.file.save(testFilePath, new TempArticle(1, "제목", "내용"));
+        // 기대하는 객체를 생성합니다.
+        TempArticle expectedArticle = new TempArticle(1, "제목", "내용");
 
-        final TempArticle tempArticle = Ut.file.getContent(testFilePath, TempArticle.class);
+        // 객체를 파일에 저장합니다.
+        Ut.file.save(testFilePath, expectedArticle);
 
-        assertThat(tempArticle).isNotNull();
+        // 파일로부터 객체를 읽어옵니다.
+        final TempArticle actualArticle = Ut.file.getContent(testFilePath, TempArticle.class);
+
+        // actualArticle이 null이 아님을 확인합니다.
+        assertThat(actualArticle).isNotNull();
+
+        // actualArticle이 expectedArticle과 필드별로 동일한지 검증합니다.
+        assertThat(actualArticle).usingRecursiveComparison().isEqualTo(expectedArticle);
     }
 }
 
