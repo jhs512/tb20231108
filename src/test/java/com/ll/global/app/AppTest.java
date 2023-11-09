@@ -206,8 +206,8 @@ public class AppTest {
                 """);
 
         assertThat(out)
-                .contains("3번 명언은 존재하지 않습니다.")
-                .contains("2번 명언이 삭제되었습니다.");
+                .contains("2번 명언이 삭제되었습니다.")
+                .contains("3번 명언은 존재하지 않습니다.");
     }
 
     @Test
@@ -227,7 +227,7 @@ public class AppTest {
                 """);
 
         assertThat(out)
-                .contains("3번 명언은 존재하지 않습니다.")
-                .contains("2번 명언이 수정되었습니다.");
+                .contains("2번 명언이 수정되었습니다.")
+                .contains("3번 명언은 존재하지 않습니다.");
     }
 }
