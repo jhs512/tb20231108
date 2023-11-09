@@ -29,19 +29,7 @@ public class App {
 
             switch (action) {
                 case "삭제" -> {
-                    final long id = rq.getParameterAsLong("id", 0);
-
-                    quotations
-                            .stream()
-                            .filter(quotation -> quotation.getId() == id)
-                            .findFirst()
-                            .ifPresentOrElse(
-                                    quotation -> {
-                                        quotations.remove(quotation);
-                                        System.out.println("%d번 명언이 삭제되었습니다.".formatted(id));
-                                    },
-                                    () -> System.out.println("%d번 명언은 존재하지 않습니다.".formatted(id))
-                            );
+                    actionRemove(rq);
                 }
                 case "수정" -> {
                     actionModify(rq);
@@ -57,6 +45,22 @@ public class App {
                 }
             }
         }
+    }
+
+    private void actionRemove(final Rq rq) {
+        final long id = rq.getParameterAsLong("id", 0);
+
+        quotations
+                .stream()
+                .filter(quotation -> quotation.getId() == id)
+                .findFirst()
+                .ifPresentOrElse(
+                        quotation -> {
+                            quotations.remove(quotation);
+                            System.out.println("%d번 명언이 삭제되었습니다.".formatted(id));
+                        },
+                        () -> System.out.println("%d번 명언은 존재하지 않습니다.".formatted(id))
+                );
     }
 
     private void actionModify(final Rq rq) {
