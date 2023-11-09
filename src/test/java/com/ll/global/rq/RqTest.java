@@ -38,4 +38,14 @@ public class RqTest {
         assertThat(rq.getParameter("id")).isEqualTo("4");
         assertThat(rq.getParameter("이름")).isEqualTo("Alice");
     }
+
+    @Test
+    @DisplayName("getParameterOr")
+    void t5() {
+        final Rq rq = new Rq("삭제?id=4&이름=Alice");
+
+        String age = rq.getParameter("나이", "100");
+
+        assertThat(age).isEqualTo(100);
+    }
 }

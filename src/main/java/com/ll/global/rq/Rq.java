@@ -29,4 +29,8 @@ public class Rq {
     public String getParameter(final String paramName) {
         return params.get(paramName);
     }
+
+    public String getParameter(final String paramName, final String defaultValue) {
+        return null;
+    }
 }
