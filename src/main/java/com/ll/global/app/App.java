@@ -1,6 +1,7 @@
 package com.ll.global.app;
 
 import com.ll.domain.quotation.quotation.entity.Quotation;
+import com.ll.global.rq.Rq;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,14 +23,12 @@ public class App {
         while (true) {
             final String cmd = scanner.nextLine().trim();
 
-            final String[] cmdBits = cmd.split("\\?", 2);
-            final String action = cmdBits[0].trim();
-            final String queryString = cmdBits.length == 2 ? cmdBits[1].trim() : "";
+            final Rq rq = new Rq(cmd);
+            final String action = rq.getAction();
 
             switch (action) {
                 case "삭제" -> {
-                    final String idStr = queryString.replace("id=", "");
-                    final long id = Long.parseLong(idStr);
+                    final long id = rq.getParameterAsLong("id", 0);
 
                     quotations
                             .removeIf(quotation -> quotation.getId() == id);
