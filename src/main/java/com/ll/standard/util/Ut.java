@@ -3,10 +3,7 @@ package com.ll.standard.util;
 import lombok.SneakyThrows;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
+import java.nio.file.*;
 
 public class Ut {
     public static class file {
@@ -42,7 +39,11 @@ public class Ut {
 
         @SneakyThrows
         public static String getContent(String filePath) {
-            return Files.readString(Paths.get(filePath));
+            try {
+                return Files.readString(Paths.get(filePath));
+            } catch (NoSuchFileException e) {
+                return null;
+            }
         }
 
         public static long getContentAsLong(String testFilePath, long defaultValue) {
