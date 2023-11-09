@@ -46,7 +46,15 @@ public class Ut {
         }
 
         public static long getContentAsLong(String testFilePath, long defaultValue) {
-            return -1;
+            final String content = getContent(testFilePath);
+
+            if (content == null) return defaultValue;
+
+            try {
+                return Long.parseLong(content);
+            } catch (NumberFormatException e) {
+                return defaultValue;
+            }
         }
 
         public static void save(String filePath, long content) {
