@@ -58,7 +58,7 @@ public class UtTest {
     @Test
     @DisplayName("객체가 파일로 저장될 수 있다.")
     void t5() {
-        Ut.file.save(testFilePath, new TempArticle(1, "제목", "내용"));
+        Ut.file.save(testFilePath, new TestArticle(1, "제목", "내용"));
 
         final String content = Ut.file.getContent(testFilePath);
 
@@ -69,13 +69,13 @@ public class UtTest {
     @DisplayName("JSON 형식으로 파일에 저장된 객체를 읽을 수 있다.")
     void t6() {
         // 기대하는 객체를 생성합니다.
-        final TempArticle expectedArticle = new TempArticle(1, "제목", "내용");
+        final TestArticle expectedArticle = new TestArticle(1, "제목", "내용");
 
         // 객체를 파일에 저장합니다.
         Ut.file.save(testFilePath, expectedArticle);
 
         // 파일로부터 객체를 읽어옵니다.
-        final TempArticle actualArticle = Ut.file.getContent(testFilePath, TempArticle.class);
+        final TestArticle actualArticle = Ut.file.getContent(testFilePath, TestArticle.class);
 
         // actualArticle이 null이 아님을 확인합니다.
         assertThat(actualArticle).isNotNull();
@@ -89,7 +89,7 @@ public class UtTest {
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @ToString
 @Getter
-class TempArticle {
+class TestArticle {
     private long id;
     private String title;
     private String content;

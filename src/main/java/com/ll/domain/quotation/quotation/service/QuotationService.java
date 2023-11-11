@@ -1,6 +1,7 @@
 package com.ll.domain.quotation.quotation.service;
 
 import com.ll.domain.quotation.quotation.entity.Quotation;
+import com.ll.domain.quotation.quotation.repository.QuotationMemoryRepository;
 import com.ll.domain.quotation.quotation.repository.QuotationRepository;
 
 import java.util.List;
@@ -10,7 +11,7 @@ public class QuotationService {
     private final QuotationRepository quotationRepository;
 
     public QuotationService() {
-        quotationRepository = new QuotationRepository();
+        quotationRepository = new QuotationMemoryRepository();
     }
 
     public List<Quotation> findAll() {
@@ -21,18 +22,18 @@ public class QuotationService {
         quotationRepository.delete(quotation);
     }
 
-    public Optional<Quotation> findById(long id) {
+    public Optional<Quotation> findById(final long id) {
         return quotationRepository.findById(id);
     }
 
-    public void modify(Quotation quotation, String authorName, String content) {
+    public void modify(final Quotation quotation, final String authorName, String content) {
         quotation.setAuthorName(authorName);
         quotation.setContent(content);
 
         quotationRepository.save(quotation);
     }
 
-    public Quotation write(String authorName, String content) {
+    public Quotation write(final String authorName, final String content) {
         final Quotation quotation = new Quotation(authorName, content);
 
         quotationRepository.save(quotation);
