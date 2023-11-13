@@ -46,4 +46,8 @@ public class SimpleDb {
             connection.close();
         }
     }
+
+    public Sql genSql() {
+        return new Sql(connection);
+    }
 }
