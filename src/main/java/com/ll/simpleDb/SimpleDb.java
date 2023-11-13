@@ -1,11 +1,9 @@
 package com.ll.simpleDb;
 
-import lombok.Cleanup;
 import lombok.SneakyThrows;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 
 public class SimpleDb {
     private final Connection connection;
@@ -18,26 +16,14 @@ public class SimpleDb {
         this.devMode = false;
     }
 
-    public void setDevMode(boolean devMode) {
-        this.devMode = devMode;
+    public Sql genSql() {
+        return new Sql(connection, devMode);
     }
 
-    @SneakyThrows
     public void run(String sql, Object... params) {
-        @Cleanup PreparedStatement stmt = connection.prepareStatement(sql);
-
-        for (int i = 0; i < params.length; i++) {
-            stmt.setObject(i + 1, params[i]);
-        }
-
-        stmt.execute();
-
-        if (devMode) {
-            System.out.println("Executed SQL: " + sql);
-            for (Object param : params) {
-                System.out.println("With param: " + param);
-            }
-        }
+        Sql sqlObj = genSql();
+        sqlObj.append(sql, params);
+        sqlObj.update();
     }
 
     @SneakyThrows
@@ -47,7 +33,7 @@ public class SimpleDb {
         }
     }
 
-    public Sql genSql() {
-        return new Sql(connection);
+    public void setDevMode(boolean devMode) {
+        this.devMode = devMode;
     }
 }
