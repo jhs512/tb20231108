@@ -4,6 +4,7 @@ import lombok.Cleanup;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 
+import java.lang.reflect.Field;
 import java.sql.*;
 import java.util.HashMap;
 import java.util.Map;
@@ -103,5 +104,39 @@ public class Sql {
         }
 
         return row;
+    }
+
+    @SneakyThrows
+    public <T> T selectRow(Class<T> cls) {
+        @Cleanup PreparedStatement stmt = connection.prepareStatement(sqlBuilder.toString());
+
+        for (int i = 0; i < params.length; i++) {
+            stmt.setObject(i + 1, params[i]);
+        }
+
+        @Cleanup ResultSet rs = stmt.executeQuery();
+
+        if (rs.next()) {
+            return resultSetToEntity(rs, cls);
+        }
+
+        return null;
+    }
+
+    @SneakyThrows
+    private <T> T resultSetToEntity(ResultSet rs, Class<T> cls) {
+        T entity = cls.newInstance();
+        ResultSetMetaData metaData = rs.getMetaData();
+        int columnCount = metaData.getColumnCount();
+
+        for (int i = 1; i <= columnCount; i++) {
+            String columnName = metaData.getColumnName(i);
+            Object value = rs.getObject(i);
+            Field field = cls.getDeclaredField(columnName);
+            field.setAccessible(true);
+            field.set(entity, value);
+        }
+
+        return entity;
     }
 }
