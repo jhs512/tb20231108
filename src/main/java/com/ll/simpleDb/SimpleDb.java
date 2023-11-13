@@ -5,7 +5,7 @@ import lombok.SneakyThrows;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.Statement;
+import java.sql.PreparedStatement;
 
 public class SimpleDb {
     private final Connection connection;
@@ -23,12 +23,20 @@ public class SimpleDb {
     }
 
     @SneakyThrows
-    public void run(String sql) {
-        @Cleanup Statement stmt = connection.createStatement();
-        stmt.execute(sql);
+    public void run(String sql, Object... params) {
+        @Cleanup PreparedStatement stmt = connection.prepareStatement(sql);
+
+        for (int i = 0; i < params.length; i++) {
+            stmt.setObject(i + 1, params[i]);
+        }
+
+        stmt.execute();
 
         if (devMode) {
             System.out.println("Executed SQL: " + sql);
+            for (Object param : params) {
+                System.out.println("With param: " + param);
+            }
         }
     }
 
