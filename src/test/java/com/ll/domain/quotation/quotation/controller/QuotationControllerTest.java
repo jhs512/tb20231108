@@ -1,12 +1,18 @@
 package com.ll.domain.quotation.quotation.controller;
 
 import com.ll.global.app.AppTest;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class QuotationControllerTest {
+    @BeforeEach
+    void beforeEach() {
+        AppTest.clear();
+    }
+
     @Test
     @DisplayName("등록")
     void t3() {

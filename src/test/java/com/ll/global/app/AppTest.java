@@ -1,6 +1,7 @@
 package com.ll.global.app;
 
 import com.ll.standard.util.TestUtil;
+import com.ll.standard.util.Ut;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -21,6 +22,10 @@ public class AppTest {
         TestUtil.clearSetOutToByteArray(byteArrayOutputStream);
 
         return out.trim();
+    }
+
+    public static void clear() {
+        Ut.file.delete("data/prod");
     }
 
     @Test

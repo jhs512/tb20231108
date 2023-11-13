@@ -1,7 +1,7 @@
 package com.ll.domain.quotation.quotation.service;
 
 import com.ll.domain.quotation.quotation.entity.Quotation;
-import com.ll.domain.quotation.quotation.repository.QuotationMemoryRepository;
+import com.ll.domain.quotation.quotation.repository.QuotationFileRepository;
 import com.ll.domain.quotation.quotation.repository.QuotationRepository;
 
 import java.util.List;
@@ -11,7 +11,7 @@ public class QuotationService {
     private final QuotationRepository quotationRepository;
 
     public QuotationService() {
-        quotationRepository = new QuotationMemoryRepository();
+        quotationRepository = new QuotationFileRepository();
     }
 
     public List<Quotation> findAll() {
