@@ -6,6 +6,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class QuotationFileRepositoryTest {
@@ -44,5 +46,25 @@ public class QuotationFileRepositoryTest {
         final Quotation quotationFromFile = repository.findById(1L).get();
 
         assertThat(quotationFromFile).isEqualTo(quotation);
+    }
+
+    @Test
+    @DisplayName("저장된 명언들을 전부 다 불러온다.")
+    void t4() {
+        final QuotationFileRepository repository = new QuotationFileRepository();
+
+        final Quotation quotation1 = new Quotation("작가1", "내용1");
+        repository.save(quotation1);
+
+        final Quotation quotation2 = new Quotation("작가2", "내용2");
+        repository.save(quotation2);
+
+        final List<Quotation> quotations = repository.findAll();
+
+        final Quotation quotation1FromFile = quotations.getFirst();
+        final Quotation quotation2FromFile = quotations.getLast();
+
+        assertThat(quotation1FromFile).isEqualTo(quotation1);
+        assertThat(quotation2FromFile).isEqualTo(quotation2);
     }
 }
