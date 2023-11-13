@@ -65,4 +65,24 @@ public class QuotationFileRepositoryTest {
         assertThat(quotation1FromFile).isEqualTo(quotation1);
         assertThat(quotation2FromFile).isEqualTo(quotation2);
     }
+
+    @Test
+    @DisplayName("1번 명언을 삭제한 후 다시 찾으면 없다.")
+    void t5() {
+        final Quotation quotation1 = new Quotation("작가1", "내용1");
+        repository.save(quotation1);
+
+        final Quotation quotation2 = new Quotation("작가2", "내용2");
+        repository.save(quotation2);
+
+        repository.delete(quotation1);
+
+        final List<Quotation> quotations = repository.findAll();
+
+        assertThat(quotations).hasSize(1);
+
+        final Quotation quotation2FromFile = quotations.getFirst();
+
+        assertThat(quotation2FromFile).isEqualTo(quotation2);
+    }
 }
