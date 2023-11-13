@@ -3,6 +3,8 @@ package com.ll.simpleDb;
 
 import org.junit.jupiter.api.*;
 
+import java.util.stream.IntStream;
+
 import static org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS;
 
 @TestInstance(PER_CLASS)
@@ -22,6 +24,12 @@ public class SimpleDbTest {
         simpleDb.close();
     }
 
+    @BeforeEach
+    public void beforeEach() {
+        truncateArticleTable();
+        makeArticleTestData();
+    }
+
     private void createArticleTable() {
         simpleDb.run("DROP TABLE IF EXISTS article");
 
@@ -36,6 +44,27 @@ public class SimpleDbTest {
                     isBlind BIT(1) NOT NULL DEFAULT 0
                 )
                 """);
+    }
+
+    private void makeArticleTestData() {
+        IntStream.rangeClosed(1, 6).forEach(no -> {
+            boolean isBlind = no > 3;
+            String title = "제목%d".formatted(no);
+            String body = "내용%d".formatted(no);
+
+            simpleDb.run("""
+                    INSERT INTO article
+                    SET createdDate = NOW(),
+                    modifiedDate = NOW(),
+                    title = ?,
+                    `body` = ?,
+                    isBlind = ?
+                    """, title, body, isBlind);
+        });
+    }
+
+    private void truncateArticleTable() {
+        simpleDb.run("TRUNCATE article");
     }
 
     @Test
