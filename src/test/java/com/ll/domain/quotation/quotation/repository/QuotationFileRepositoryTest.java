@@ -75,7 +75,9 @@ public class QuotationFileRepositoryTest {
         final Quotation quotation2 = new Quotation("작가2", "내용2");
         repository.save(quotation2);
 
-        repository.delete(quotation1);
+        boolean deleted = repository.delete(quotation1);
+
+        assertThat(deleted).isTrue();
 
         final List<Quotation> quotations = repository.findAll();
 
