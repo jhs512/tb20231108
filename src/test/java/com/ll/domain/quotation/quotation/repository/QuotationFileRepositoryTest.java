@@ -33,4 +33,16 @@ public class QuotationFileRepositoryTest {
 
         assertThat(Ut.file.exists(repository._getQuotationFilePath(quotation))).isTrue();
     }
+
+    @Test
+    @DisplayName("1번 명언을 저장 후 다시 불러온다.")
+    void t3() {
+        final QuotationFileRepository repository = new QuotationFileRepository();
+        final Quotation quotation = new Quotation("작가1", "내용1");
+        repository.save(quotation); // quotation 의 id 가 1로 할당된다.
+
+        final Quotation quotationFromFile = repository.findById(1L).get();
+
+        assertThat(quotationFromFile).isEqualTo(quotation);
+    }
 }
