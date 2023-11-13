@@ -1,5 +1,6 @@
 package com.ll.standard.util;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 
@@ -101,6 +102,17 @@ public class Ut {
             }
 
             return OBJECT_MAPPER.readValue(content, cls);
+        }
+
+        @SneakyThrows
+        public static <T> T getContent(String filePath, TypeReference<T> typeRef) {
+            final String content = getContent(filePath);
+
+            if (content == null) {
+                return null;
+            }
+
+            return OBJECT_MAPPER.readValue(content, typeRef);
         }
     }
 }
