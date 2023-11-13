@@ -28,6 +28,8 @@ public class QuotationFileRepository implements QuotationRepository {
             quotation.setId(getLastId() + 1);
             setLastId(quotation.getId());
         }
+
+        Ut.file.save("data/prod/quotation/" + quotation.getId() + ".json", quotation);
     }
 
     private void setLastId(final long id) {
