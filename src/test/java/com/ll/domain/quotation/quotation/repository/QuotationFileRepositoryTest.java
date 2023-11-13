@@ -11,7 +11,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class QuotationFileRepositoryTest {
     @BeforeEach
     void beforeEach() {
-        Ut.file.delete("data/prod/quotation");
+        Ut.file.delete(QuotationFileRepository.QUOTATION_DATA_PATH);
     }
 
     @Test
@@ -31,6 +31,6 @@ public class QuotationFileRepositoryTest {
         final Quotation quotation = new Quotation("작가1", "내용1");
         repository.save(quotation); // quotation 의 id 가 1로 할당된다.
 
-        assertThat(Ut.file.exists("data/prod/quotation/1.json")).isTrue();
+        assertThat(Ut.file.exists(repository._getQuotationFilePath(quotation))).isTrue();
     }
 }

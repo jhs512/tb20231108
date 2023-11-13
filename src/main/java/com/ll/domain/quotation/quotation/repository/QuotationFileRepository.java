@@ -7,6 +7,9 @@ import java.util.List;
 import java.util.Optional;
 
 public class QuotationFileRepository implements QuotationRepository {
+    public static final String QUOTATION_DATA_PATH = "data/prod/quotation/";
+    private static final String LAST_ID_FILE_PATH = QUOTATION_DATA_PATH + "lastId.txt";
+
     @Override
     public List<Quotation> findAll() {
         return null;
@@ -29,14 +32,18 @@ public class QuotationFileRepository implements QuotationRepository {
             setLastId(quotation.getId());
         }
 
-        Ut.file.save("data/prod/quotation/" + quotation.getId() + ".json", quotation);
+        Ut.file.save(_getQuotationFilePath(quotation), quotation);
     }
 
     private void setLastId(final long id) {
-        Ut.file.save("data/prod/quotation/lastId.txt", id);
+        Ut.file.save(LAST_ID_FILE_PATH, id);
     }
 
     private long getLastId() {
-        return Ut.file.getContentAsLong("data/prod/quotation/lastId.txt", 0);
+        return Ut.file.getContentAsLong(LAST_ID_FILE_PATH, 0);
+    }
+
+    public String _getQuotationFilePath(final Quotation quotation) {
+        return QUOTATION_DATA_PATH + quotation.getId() + ".json";
     }
 }
