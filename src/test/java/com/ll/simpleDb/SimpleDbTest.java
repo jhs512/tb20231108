@@ -4,6 +4,7 @@ package com.ll.simpleDb;
 import org.junit.jupiter.api.*;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.IntStream;
@@ -202,5 +203,23 @@ public class SimpleDbTest {
             assertThat(articleDto.getModifiedDate()).isNotNull();
             assertThat(articleDto.isBlind()).isFalse();
         });
+    }
+
+    @Test
+    public void selectIn() {
+        Sql sql = simpleDb.genSql();
+        /*
+        == rawSql ==
+        SELECT COUNT(*)
+        FROM article
+        WHERE id IN ('1','2','3')
+        */
+        sql.append("SELECT COUNT(*)")
+                .append("FROM article")
+                .appendIn("WHERE id IN (?)", Arrays.asList(1L, 2L, 3L));
+
+        long count = sql.selectLong();
+
+        assertThat(count).isEqualTo(3);
     }
 }
