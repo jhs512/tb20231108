@@ -23,4 +23,14 @@ public class QuotationFileRepositoryTest {
 
         assertThat(quotation.getId()).isEqualTo(1L);
     }
+
+    @Test
+    @DisplayName("1번 명언을 저장하면 테이블 폴더에 1.json이 생긴다.")
+    void t2() {
+        final QuotationFileRepository repository = new QuotationFileRepository();
+        final Quotation quotation = new Quotation("작가1", "내용1");
+        repository.save(quotation); // quotation 의 id 가 1로 할당된다.
+
+        assertThat(Ut.file.exists("data/prod/quotation/1.json")).isTrue();
+    }
 }
