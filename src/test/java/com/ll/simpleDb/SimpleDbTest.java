@@ -1,10 +1,7 @@
 package com.ll.simpleDb;
 
 
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS;
 
@@ -14,16 +11,21 @@ public class SimpleDbTest {
 
     @BeforeAll
     public void beforeAll() {
-        simpleDb = new SimpleDb("localhost", "root", "", "simpleDb__test");
+        simpleDb = new SimpleDb("localhost", "root", "lldj123414", "simpleDb__test");
         simpleDb.setDevMode(true);
 
         createArticleTable();
     }
 
+    @AfterAll
+    public void afterAll() {
+        simpleDb.close();
+    }
+
     private void createArticleTable() {
         simpleDb.run("DROP TABLE IF EXISTS article");
 
-        simpleDb.run("""                                                
+        simpleDb.run("""
                 CREATE TABLE article (
                     id INT UNSIGNED NOT NULL AUTO_INCREMENT,
                     PRIMARY KEY(id),
