@@ -60,4 +60,15 @@ public class Sql {
 
         return stmt.executeUpdate();
     }
+
+    @SneakyThrows
+    public long delete() {
+        @Cleanup PreparedStatement stmt = connection.prepareStatement(sqlBuilder.toString());
+
+        for (int i = 0; i < params.length; i++) {
+            stmt.setObject(i + 1, params[i]);
+        }
+
+        return stmt.executeUpdate();
+    }
 }
