@@ -49,4 +49,15 @@ public class Sql {
         System.arraycopy(b, 0, c, aLen, bLen);
         return c;
     }
+
+    @SneakyThrows
+    public long update() {
+        @Cleanup PreparedStatement stmt = connection.prepareStatement(sqlBuilder.toString());
+
+        for (int i = 0; i < params.length; i++) {
+            stmt.setObject(i + 1, params[i]);
+        }
+
+        return stmt.executeUpdate();
+    }
 }
