@@ -4,6 +4,7 @@ package com.ll.simpleDb;
 import org.junit.jupiter.api.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.IntStream;
 
@@ -174,5 +175,32 @@ public class SimpleDbTest {
         assertThat(article.getCreatedDate()).isNotNull();
         assertThat(article.getModifiedDate()).isNotNull();
         assertThat(article.isBlind()).isFalse();
+    }
+
+    @Test
+    public void selectArticles() {
+        Sql sql = simpleDb.genSql();
+        /*
+        == rawSql ==
+        SELECT *
+        FROM article
+        ORDER BY id ASC
+        LIMIT 3
+        */
+        sql.append("SELECT * FROM article ORDER BY id ASC LIMIT 3");
+        List<Article> articleDtoList = sql.selectRows(Article.class);
+
+        IntStream.range(0, articleDtoList.size()).forEach(i -> {
+            long id = i + 1;
+
+            Article articleDto = articleDtoList.get(i);
+
+            assertThat(articleDto.getId()).isEqualTo(id);
+            assertThat(articleDto.getTitle()).isEqualTo("제목%d".formatted(id));
+            assertThat(articleDto.getBody()).isEqualTo("내용%d".formatted(id));
+            assertThat(articleDto.getCreatedDate()).isNotNull();
+            assertThat(articleDto.getModifiedDate()).isNotNull();
+            assertThat(articleDto.isBlind()).isFalse();
+        });
     }
 }
