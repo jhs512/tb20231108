@@ -47,7 +47,7 @@ public class ExportControllerTest {
                 빌드
                 """);
 
-        List<Quotation> quotations = Ut.file.getContent("data/data.json", new TypeReference<>() {
+        final List<Quotation> quotations = Ut.file.getContent("data/data.json", new TypeReference<>() {
         });
 
         assertThat(quotations).hasSize(2);
