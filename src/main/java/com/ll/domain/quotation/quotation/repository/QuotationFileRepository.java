@@ -5,6 +5,7 @@ import com.ll.standard.util.Ut;
 import lombok.SneakyThrows;
 
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
@@ -16,11 +17,15 @@ public class QuotationFileRepository implements QuotationRepository {
     @Override
     @SneakyThrows
     public List<Quotation> findAll() {
-        return Files.walk(Path.of(QUOTATION_DATA_PATH))
-                .filter(Files::isRegularFile) // 첫 번째 필터: 레귤러 파일인지 확인
-                .filter(path -> path.getFileName().toString().matches("\\d+\\.json")) // 두 번째 필터: 파일 이름이 정수와 .json 확장자를 가지는지 확인
-                .map(path -> Ut.file.getContent(path.toString(), Quotation.class))
-                .toList();
+        try {
+            return Files.walk(Path.of(QUOTATION_DATA_PATH))
+                    .filter(Files::isRegularFile) // 첫 번째 필터: 레귤러 파일인지 확인
+                    .filter(path -> path.getFileName().toString().matches("\\d+\\.json")) // 두 번째 필터: 파일 이름이 정수와 .json 확장자를 가지는지 확인
+                    .map(path -> Ut.file.getContent(path.toString(), Quotation.class))
+                    .toList();
+        } catch (NoSuchFileException e) {
+            return List.of();
+        }
     }
 
     @Override

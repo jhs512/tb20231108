@@ -18,6 +18,7 @@ public class App {
         final QuotationController quotationController = new QuotationController(scanner);
 
         while (true) {
+            System.out.print("명령) ");
             final String cmd = scanner.nextLine().trim();
 
             final Rq rq = new Rq(cmd);
