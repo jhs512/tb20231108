@@ -1,4 +1,4 @@
-package com.ll.domain.quotaion.quotation.controller;
+package com.ll.domain.quotation.quotation.controller;
 
 import com.ll.global.app.AppTest;
 import org.junit.jupiter.api.DisplayName;

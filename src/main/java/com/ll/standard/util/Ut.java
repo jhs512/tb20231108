@@ -5,13 +5,14 @@ import lombok.SneakyThrows;
 
 import java.io.IOException;
 import java.nio.file.*;
+import java.util.Comparator;
 
 public class Ut {
     public static class file {
         private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
         @SneakyThrows
-        public static void save(String filePath, Object obj) {
+        public static void save(final String filePath, final Object obj) {
             // 객체를 JSON 문자열로 직렬화
             String jsonContent = OBJECT_MAPPER.writeValueAsString(obj);
 
@@ -20,7 +21,7 @@ public class Ut {
         }
 
         @SneakyThrows
-        public static void save(String filePath, String content) {
+        public static void save(final String filePath, final String content) {
             final Path path = Paths.get(filePath);
 
             try {
@@ -39,14 +40,27 @@ public class Ut {
             }
         }
 
-        public static boolean exists(String filePath) {
+        public static boolean exists(final String filePath) {
             return Files.exists(Paths.get(filePath));
         }
 
         @SneakyThrows
-        public static boolean delete(String filePath) {
+        public static boolean delete(final String filePath) {
+            final Path path = Paths.get(filePath);
+
             try {
-                Files.delete(Paths.get(filePath));
+                Files.delete(path);
+                return true;
+            } catch (DirectoryNotEmptyException e) {
+                Files.walk(path)
+                        .sorted(Comparator.reverseOrder())
+                        .forEach(_path -> {
+                            try {
+                                Files.delete(_path);
+                            } catch (IOException ex) {
+                                throw new RuntimeException(ex);
+                            }
+                        });
                 return true;
             } catch (NoSuchFileException e) {
                 return false;
